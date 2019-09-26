@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">
+            #shape {
+                width: 300px;
+                height: 300px;
+                background-color: red;
+                display: none;
+                position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Test Your Reactions</h1>
+        <p>click on the boxes and circles as quickly as you can!</p>
+        <div><b style="font-size: 30px;">Your reaction time: <span id="time"></span></b></div> 
+        <div id="shape"></div>
+
+        <script type="text/javascript">
+
+        var shape = document.getElementById('shape');
+        
+        var start = new Date().getTime();
+
+        function getRandomColor() {
+           var letters = '0123456789ABCDEF';
+           var color = '#';
+           for (var i = 0; i < 6; i++) {
+             color += letters[Math.floor(Math.random() * 16)];
+           }
+           return color;
+        }
+
+        function shapeAppear() {
+            shape.style.display = "block";
+            if(Math.random() > 0.5) {
+                shape.style.borderRadius = "50%";
+            }
+            else {
+                shape.style.borderRadius = "0%";
+            }
+            var top = Math.random()*600;
+            var left = Math.random()*600;
+            var width = Math.random()*300 + 100;
+            shape.style.backgroundColor = getRandomColor();
+            shape.style.top = top + "px";
+            shape.style.left = left + "px";
+            shape.style.width = width + "px";
+            shape.style.height = width + "px";
+            start = new Date().getTime();
+        }
+
+        function appearAfterDelay() {
+            setTimeout(shapeAppear, Math.random()*2000);
+        }
+
+        appearAfterDelay();
+
+        document.getElementById('shape').onclick = function() {
+            shape.style.display="none";
+            var end = new Date().getTime();
+            var timeTaken = (end - start)/1000;
+            document.getElementById('time').innerHTML = timeTaken + "s";
+            appearAfterDelay();
+        }
+
+        </script>
+    </body>
+</html>
