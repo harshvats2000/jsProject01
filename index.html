@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
         <style type="text/css">
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
             #shape {
                 width: 300px;
                 height: 300px;
@@ -9,19 +14,56 @@
                 display: none;
                 position: relative;
             }
+
+            #gameOver {
+                position: relative;
+                display: none;
+            }
+
+            #startBtn {
+                cursor: pointer;
+                width: 80px;
+                height: 40px;
+                font-size: 22px;
+                background-color: blue;
+                color: white;
+                border: none;
+                box-shadow: 3px 3px 2px gray;
+                border-radius: 10%;
+            }
         </style>
     </head>
     <body>
         <h1>Test Your Reactions</h1>
-        <p>click on the boxes and circles as quickly as you can!</p>
-        <div><b style="font-size: 30px;">Your reaction time: <span id="time"></span></b></div> 
+        <p>click on the boxes and circles as quickly as you can in 15 seconds!</p>
+        <div style="font-size: 25px;" id="gameOver">Number of clicks: <span id="clicks">0</span></div>
+        <button type="button" id="startBtn">Start</button>
         <div id="shape"></div>
-
+        
+        <!--javascript -->
         <script type="text/javascript">
 
+        $('#startBtn').click(function() {
+            startTheGame();
+            $(this).css({"display": "none"});
+            $('#gameOver').css({"display": "block"});
+        });
+
+        function startTheGame() {
+
         var shape = document.getElementById('shape');
-        
-        var start = new Date().getTime();
+
+        function stopTheGame()  {
+            shape.style.display = "none";
+            document.getElementById("gameOver").innerHTML = "GAME OVER!!!<br>Your Score is " + noOfClicks + ".";
+            $("#gameOver").animate({
+                "left": "40%",
+                "top": "200px",
+                },500);
+            
+        }
+
+        setTimeout(stopTheGame, 15000);
 
         function getRandomColor() {
            var letters = '0123456789ABCDEF';
@@ -51,18 +93,20 @@
             start = new Date().getTime();
         }
 
-        function appearAfterDelay() {
-            setTimeout(shapeAppear, Math.random()*2000);
-        }
+        // function appearAfterDelay() {
+        //     setTimeout(shapeAppear, Math.random()*2000);
+        // }
 
-        appearAfterDelay();
+        // appearAfterDelay();
+        shapeAppear();
 
+        var noOfClicks = 0;
         document.getElementById('shape').onclick = function() {
+            noOfClicks++;
+            document.getElementById('clicks').innerHTML = noOfClicks;
             shape.style.display="none";
-            var end = new Date().getTime();
-            var timeTaken = (end - start)/1000;
-            document.getElementById('time').innerHTML = timeTaken + "s";
-            appearAfterDelay();
+            shapeAppear();
+        }
         }
 
         </script>
